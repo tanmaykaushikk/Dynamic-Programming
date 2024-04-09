@@ -1,0 +1,41 @@
+import java.util.* ;
+import java.io.*; 
+
+public class Solution{
+    static int dp[][];
+   
+    
+    public static int function(int weight[],int value[],int idx,int W){
+        if(idx==0){
+            if(weight[idx]<=W){
+                return value[idx];
+            }else{
+                return 0;
+            }
+        }
+
+        if(dp[idx][W] != -1){
+            return dp[idx][W];
+        }
+
+        int take = Integer.MIN_VALUE;
+        int nottake =0+ function(weight, value, idx-1, W);
+
+        if(weight[idx]<=W){
+             take = value[idx] + function(weight, value, idx-1, W-weight[idx]);
+        }
+        return dp[idx][W] = Math.max(take, nottake);
+    }
+
+
+    static int knapsack(int[] weight, int[] value, int n, int maxWeight) {
+        // initialize the dp with -1.
+        dp = new int[n][maxWeight+1];
+        for(int i=0;i<n;i++){
+            Arrays.fill(dp[i],-1);
+        }
+        return function(weight,value,n-1,maxWeight);
+
+    }
+    
+}
