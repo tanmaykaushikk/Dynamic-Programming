@@ -1,0 +1,29 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+
+    // static Boolean dp[][];
+    public static boolean func(int idx,int k ,int [] arr, Boolean[][]dp){
+        if(k==0) return true;
+        if(idx>=arr.length) return false;
+
+        if(dp[idx][k] != null){
+            return dp[idx][k];
+        }
+
+        boolean take = false;
+
+        if(arr[idx]<=k){
+            take = func(idx+1, k-arr[idx], arr,dp);
+        }
+        boolean nottake = func(idx+1, k, arr,dp);
+        return dp[idx][k] = take||nottake;
+    }
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+
+        // dp = new Boolean[n+1][k+1];
+        Boolean dp[][] = new Boolean[n+1][k+1];
+        return func(0, k, arr,dp);
+        
+    }
+}
