@@ -1,0 +1,37 @@
+class Solution{
+  static int knapSack(int N, int W, int val[], int wt[]) {
+    int[][] dp = new int[N + 1][W + 1];
+
+    // Initialize with -1 for memoization (not calculated yet)
+    for (int i = 0; i <= N; i++) {
+      for (int j = 0; j <= W; j++) {
+        dp[i][j] = -1;
+      }
+    }
+
+    return solve(N, W, val, wt, dp);
+  }
+
+  static int solve(int i, int w, int[] val, int[] wt, int[][] dp) {
+    // Base Case: If no items or no capacity left
+    if (i == 0 || w == 0) {
+      return 0;
+    }
+
+    // Check if already calculated
+    if (dp[i][w] != -1) {
+      return dp[i][w];
+    }
+
+    // Include current item if weight allows
+    if (wt[i - 1] <= w) {
+      dp[i][w] = Math.max(val[i - 1] + solve(i, w - wt[i - 1], val, wt, dp),
+                           solve(i - 1, w, val, wt, dp)); // exclude or include
+    } else {
+      // If weight is greater, exclude current item
+      dp[i][w] = solve(i - 1, w, val, wt, dp);
+    }
+
+    return dp[i][w];
+  }
+}
